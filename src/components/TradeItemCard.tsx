@@ -3,12 +3,33 @@ import { TradeItem } from "../types";
 type TradeItemCardProps = {
   tradeItem: TradeItem;
   quantity?: number;
+  onClick?: () => void;
+  selected?: boolean;
 };
 
-const TradeItemCard = ({ tradeItem, quantity }: TradeItemCardProps) => {
+const TradeItemCard = ({
+  tradeItem,
+  quantity,
+  onClick,
+  selected,
+}: TradeItemCardProps) => {
   return (
-    <div className="relative w-24 h-24">
-      <div className="relative h-full bg-gradient-to-b from-orange-50 to-orange-100 rounded-2xl border-2 border-black">
+    <div className="relative w-24 h-24 group" onClick={onClick}>
+      <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <div className="bg-black/80 text-white px-2 py-1 rounded text-sm whitespace-nowrap">
+          {tradeItem.name}
+        </div>
+      </div>
+      <div
+        className={`
+        relative h-full rounded-2xl border-2 border-black
+        ${
+          selected
+            ? "bg-gradient-to-b from-orange-200 to-orange-300"
+            : "bg-gradient-to-b from-orange-50 to-orange-100"
+        }
+      `}
+      >
         {/* Highlight effect */}
         <div className="absolute inset-[6px] bg-orange-200 rounded-xl border-2 border-orange-950/20 transform opacity-50" />
         <div className="absolute top-0 left-0 w-full h-1/3 bg-white/30 rounded-full " />
@@ -23,18 +44,7 @@ const TradeItemCard = ({ tradeItem, quantity }: TradeItemCardProps) => {
 
           {quantity && (
             <div className="absolute bottom-1 w-full text-center">
-              <span
-                className="text-2xl font-bold text-white px-1 py-0.5"
-                style={{
-                  textShadow: `
-                        -2px -2px 0 #000,
-                         2px -2px 0 #000,
-                        -2px  2px 0 #000,
-                         2px  2px 0 #000,
-                         0    3px  3px rgba(0,0,0,0.5)
-                      `,
-                }}
-              >
+              <span className="text-2xl font-bold text-white px-1 py-0.5 drop-shadow-[0_2px_1px_rgba(0,0,0,0.5)] text-stroke-2 text-stroke-black paint-order-fill">
                 {quantity}
               </span>
             </div>

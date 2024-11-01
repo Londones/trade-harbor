@@ -12,10 +12,13 @@ export default {
     function ({ addUtilities }) {
       const newUtilities = {
         ".text-stroke-2": {
-          "-webkit-text-stroke": "2px",
+          "-webkit-text-stroke": "5px",
         },
         ".text-stroke-black": {
           "-webkit-text-stroke-color": "black",
+        },
+        ".paint-order-fill": {
+          "paint-order": "stroke fill",
         },
       };
       addUtilities(newUtilities);
