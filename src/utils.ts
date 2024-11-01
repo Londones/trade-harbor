@@ -4,6 +4,7 @@ import { GOODS_PRICES, RAW_MATERIAL_PRICES } from "./constants";
 const rawImages = import.meta.glob("/src/assets/resources/raw/*.png", {
   eager: true,
 });
+
 const goodsImages = import.meta.glob("/src/assets/resources/goods/*.png", {
   eager: true,
 });
@@ -11,7 +12,11 @@ const goodsImages = import.meta.glob("/src/assets/resources/goods/*.png", {
 function formatName(filename: string): string {
   const baseName = filename.split("/").pop()?.replace(".png", "") || "";
   const nameWithoutMaterial = baseName.replace("Material_", "");
-  return nameWithoutMaterial.replace(/_/g, " ");
+  return nameWithoutMaterial
+    .replace(/_/g, " ")
+    .split(" ")
+    .map((word) => word[0].toUpperCase() + word.slice(1))
+    .join(" ");
 }
 
 function getBaseValue(name: string, isRawMaterial: boolean): number {
@@ -25,23 +30,23 @@ function generateTradeItems(): TradeItem[] {
   const items: TradeItem[] = [];
   let id = 1;
 
-  Object.entries(rawImages).forEach(([path]) => {
+  Object.entries(rawImages).forEach(([path, module]) => {
     const name = formatName(path);
     items.push({
       id: id++,
       name,
       baseValue: getBaseValue(name, true),
-      imageSrc: path,
+      imageSrc: (module as { default: string }).default,
     });
   });
 
-  Object.entries(goodsImages).forEach(([path]) => {
+  Object.entries(goodsImages).forEach(([path, module]) => {
     const name = formatName(path);
     items.push({
       id: id++,
       name,
       baseValue: getBaseValue(name, false),
-      imageSrc: path,
+      imageSrc: (module as { default: string }).default,
     });
   });
 

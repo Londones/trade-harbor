@@ -11,4 +11,5 @@ export default defineConfig({
     globals: true,
   },
   base: "/trade-harbor/",
+  publicDir: "public",
 });
