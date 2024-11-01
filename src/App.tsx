@@ -46,7 +46,6 @@ function App() {
       let bestValue = 0;
       let bestIndex = -1;
 
-      // Find the highest value item that fits in remaining sum
       for (let i = 0; i < itemsCopy.length; i++) {
         const value = itemsCopy[i].baseValue;
         if (value <= remainingSum && value > bestValue) {
@@ -55,10 +54,8 @@ function App() {
         }
       }
 
-      // If no valid item found, break
       if (bestIndex === -1) break;
 
-      // Add the best item
       currentSum += bestValue;
       resultCounts.set(bestIndex, (resultCounts.get(bestIndex) || 0) + 1);
     }
@@ -80,20 +77,6 @@ function App() {
     <div className="p-4 flex flex-col justify-center">
       <h1 className="text-2xl mb-6">Trade Harbor Calculator</h1>
 
-      {/* Selected Items */}
-      {/* <div className="mb-6">
-        <h2 className="text-lg mb-2">Selected 2x Value Items ({selectedBoostedItems.length}/2):</h2>
-        <div className="flex gap-4">
-          {selectedBoostedItems.map(item => (
-            <TradeItemCard
-              key={item.id}
-              tradeItem={{...item, baseValue: item.baseValue * 2}}
-              onClick={() => handleItemClick(item)}
-            />
-          ))}
-        </div>
-      </div> */}
-
       <Button
         onClick={calculateOptimalLoadout}
         disabled={selectedBoostedItems.length !== 2}
@@ -101,8 +84,7 @@ function App() {
         Calculate Best Loadout
       </Button>
 
-      {/* Available Items Grid */}
-      <div className="grid grid-cols-12 gap-4 mt-6">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-12 gap-2 sm:gap-4 mt-6">
         {tradeItems.map((item) => (
           <div key={item.id}>
             <TradeItemCard
